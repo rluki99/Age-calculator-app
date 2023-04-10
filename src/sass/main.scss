@@ -14,6 +14,17 @@ body {
 	min-height: 100svh;
 	height: 100vh;
 	height: 100svh;
+
+	@include desktop {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+	}
+}
+
+main {
+	width: 100%;
 }
 
 .wrapper {
@@ -29,7 +40,7 @@ body {
 	overflow: hidden;
 	padding: 45px 25px;
 	@include desktop {
-		padding: 45px;
+		padding: 50px;
 		border-radius: 30px 30px 200px 30px;
 	}
 }
@@ -53,7 +64,7 @@ body {
 		@include desktop {
 			max-width: 150px;
 		}
-	
+
 		label {
 			text-transform: uppercase;
 			color: $color-smokey-grey;
@@ -61,7 +72,7 @@ body {
 			margin-bottom: 5px;
 			letter-spacing: 2px;
 		}
-	
+
 		input {
 			color: $color-off-black;
 			font-weight: 800;
@@ -107,17 +118,15 @@ body {
 			width: 90px;
 			height: 90px;
 			margin: 20px 0 20px auto;
-
 		}
-		
+
 		svg {
 			width: 30px;
-			
+
 			@include desktop {
 				width: 40px;
 			}
 		}
-
 	}
 
 	.submit:hover {
@@ -146,7 +155,8 @@ body {
 	line-height: 70px;
 
 	@include desktop {
-		font-size: 72px;
+		font-size: 92px;
+		line-height: 90px;
 	}
 
 	span {
@@ -154,11 +164,10 @@ body {
 		font-size: 64px;
 
 		@include desktop {
-			font-size: 82px;
+			font-size: 102px;
 		}
 	}
 }
-
 
 .attribution {
 	font-size: 11px;
