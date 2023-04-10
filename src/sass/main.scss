@@ -1,0 +1,170 @@
+@use './colors' as *;
+@use './mixins' as *;
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: $color-off-white;
+	font-family: 'Poppins', sans-serif;
+	min-height: 100vh;
+	min-height: 100svh;
+	height: 100vh;
+	height: 100svh;
+}
+
+.wrapper {
+	margin: 0 auto;
+	width: 100%;
+	max-width: 900px;
+	padding: 60px 15px;
+}
+
+.calculator {
+	background-color: $color-white;
+	border-radius: 20px 20px 100px 20px;
+	overflow: hidden;
+	padding: 45px 25px;
+	@include desktop {
+		padding: 45px;
+		border-radius: 30px 30px 200px 30px;
+	}
+}
+
+.inputs {
+	display: flex;
+	justify-content: space-between;
+	gap: 15px;
+
+	@include desktop {
+		justify-content: flex-start;
+		gap: 30px;
+	}
+
+	.input {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		max-width: 300px;
+
+		@include desktop {
+			max-width: 150px;
+		}
+	
+		label {
+			text-transform: uppercase;
+			color: $color-smokey-grey;
+			font-weight: 700;
+			margin-bottom: 5px;
+			letter-spacing: 2px;
+		}
+	
+		input {
+			color: $color-off-black;
+			font-weight: 800;
+			height: 60px;
+			width: 100%;
+			border: 1px solid $color-light-grey;
+			border-radius: 8px;
+			padding: 5px 12px;
+			font-size: 20px;
+
+			@include desktop {
+				font-size: 32px;
+			}
+
+			&:focus {
+				outline: none;
+				border-color: $color-purple;
+			}
+		}
+
+		.error {
+			color: $color-light-red;
+			border-color: $color-light-red;
+		}
+	}
+}
+
+.button {
+	position: relative;
+	z-index: 0;
+	.submit {
+		border: none;
+		background-color: $color-purple;
+		border-radius: 50%;
+		width: 75px;
+		height: 75px;
+		display: block;
+		margin: 40px auto;
+		cursor: pointer;
+		transition: background-color 0.3s;
+
+		@include desktop {
+			width: 90px;
+			height: 90px;
+			margin: 20px 0 20px auto;
+
+		}
+		
+		svg {
+			width: 30px;
+			
+			@include desktop {
+				width: 40px;
+			}
+		}
+
+	}
+
+	.submit:hover {
+		background-color: $color-off-black;
+	}
+
+	hr {
+		position: absolute;
+		top: 50%;
+		left: 0;
+		transform: translateY(-50%);
+		width: 100%;
+		border: none;
+		height: 2px;
+		background-color: $color-off-white;
+		margin: 0;
+		z-index: -1;
+	}
+}
+
+.count {
+	font-weight: 800;
+	font-style: italic;
+	font-size: 54px;
+	letter-spacing: -2px;
+	line-height: 70px;
+
+	@include desktop {
+		font-size: 72px;
+	}
+
+	span {
+		color: $color-purple;
+		font-size: 64px;
+
+		@include desktop {
+			font-size: 82px;
+		}
+	}
+}
+
+
+.attribution {
+	font-size: 11px;
+	text-align: center;
+}
+
+.attribution a {
+	color: hsl(228, 45%, 44%);
+}
