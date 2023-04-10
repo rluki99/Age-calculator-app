@@ -10,26 +10,33 @@ const yearsSpan = document.querySelector('#years')
 
 //our months can have 30/31/29/28 days
 const dateDiff = (date1, date2) => {
-	const years = date2.getFullYear() - date1.getFullYear()
-	const months = date2.getMonth() - date1.getMonth()
-	const days = date2.getDate() - date1.getDate()
+    const years = date2.getFullYear() - date1.getFullYear();
+    const months = date2.getMonth() - date1.getMonth();
+    const days = date2.getDate() - date1.getDate();
 
-	const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate()
+    const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
 
-	let adjustedMonths = years * 12 + months
-	let adjustedDays = days
+    let adjustedMonths = years * 12 + months;
+    let adjustedDays = days;
 
-	if (days < 0) {
-		adjustedMonths--
-		const prevMonth = (date1.getMonth() - 1 + 12) % 12
-		adjustedDays += daysInMonth(date1.getFullYear(), prevMonth)
-	}
+    if (days < 0) {
+        adjustedMonths--;
+        const prevMonth = (date2.getMonth() - 1 + 12) % 12;
+        const prevMonthYear = date2.getFullYear() - (prevMonth === 11 ? 1 : 0);
+        adjustedDays += daysInMonth(prevMonthYear, prevMonth);
+    }
 
-	const adjustedYears = Math.floor(adjustedMonths / 12)
-	adjustedMonths %= 12
+    if (adjustedDays === daysInMonth(date2.getFullYear(), date2.getMonth() - 1)) {
+        adjustedDays = 0;
+        adjustedMonths++;
+    }
 
-	return { years: adjustedYears, months: adjustedMonths, days: adjustedDays }
-}
+    const adjustedYears = Math.floor(adjustedMonths / 12);
+    adjustedMonths %= 12;
+
+    return { years: adjustedYears, months: adjustedMonths, days: adjustedDays };
+};
+
 
 const getCurrentAndInputDate = (dayInput, monthInput, yearInput) => {
 	const currentDate = new Date();
