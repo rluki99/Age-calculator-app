@@ -31,6 +31,17 @@ const dateDiff = (date1, date2) => {
 	return { years: adjustedYears, months: adjustedMonths, days: adjustedDays }
 }
 
+const getCurrentAndInputDate = (dayInput, monthInput, yearInput) => {
+	const currentDate = new Date();
+	const inputDate = new Date(
+		parseInt(yearInput.value, 10),
+		//months are indexed from 0 to 11
+		parseInt(monthInput.value, 10) - 1,
+		parseInt(dayInput.value, 10)
+	  );
+	  return { currentDate, inputDate };
+}
+
 const countDate = () => {
 	const isDayValid = validateInput(dayInput, dayInput, monthInput, yearInput)
 	const isMonthValid = validateInput(monthInput, dayInput, monthInput, yearInput)
@@ -40,8 +51,7 @@ const countDate = () => {
 		return
 	}
 
-	const inputDate = new Date(yearInput.value, monthInput.value - 1, dayInput.value)
-	const currentDate = new Date()
+	const { currentDate, inputDate } = getCurrentAndInputDate(dayInput, monthInput, yearInput);
 	const diff = dateDiff(inputDate, currentDate)
 
 	daysSpan.textContent = diff.days
@@ -54,35 +64,12 @@ const validateInput = (input, dayInput, monthInput, yearInput) => {
 	const labelElement = input.previousElementSibling
 	const minValue = parseInt(input.getAttribute('min'), 10)
 	const maxValue = parseInt(input.getAttribute('max'), 10)
-	const currentDate = new Date()
-	const inputDate = new Date(
-		parseInt(yearInput.value, 10),
-		parseInt(monthInput.value, 10) - 1,
-		parseInt(dayInput.value, 10)
-	)
+	const { currentDate, inputDate } = getCurrentAndInputDate(dayInput, monthInput, yearInput);
 
-	const clearError = () => {
-		labelElement.classList.remove('error')
-		input.classList.remove('error')
-		errorElement.textContent = ''
-	}
-	clearError()
-
-	const addErrorToAllInputs = (inputs, errorMessage) => {
-		inputs.forEach((input) => {
-			const labelElement = input.previousElementSibling
-			const errorElement = input.nextElementSibling
-			labelElement.classList.add('error')
-			input.classList.add('error')
-			if (input.id === 'day') {
-				errorElement.textContent = errorMessage
-			}
-		})
-	}
+	clearErrors(labelElement, input, errorElement)
 
 	if (input.value === '') {
-		labelElement.classList.add('error')
-		input.classList.add('error')
+		addErrors(labelElement, input)
 		errorElement.textContent = `This field is required`
 		return false
 	} else if (
@@ -93,16 +80,14 @@ const validateInput = (input, dayInput, monthInput, yearInput) => {
 					(parseInt(monthInput.value, 10) === currentDate.getMonth() + 1 &&
 						parseInt(dayInput.value, 10) > currentDate.getDate()))))
 	) {
-		labelElement.classList.add('error')
-		input.classList.add('error')
+		addErrors(labelElement, input)
 		errorElement.textContent = `Must be in the past`
 		return false
 	} else if (
 		(minValue !== null && parseInt(input.value, 10) < minValue) ||
 		(maxValue !== null && parseInt(input.value, 10) > maxValue)
 	) {
-		labelElement.classList.add('error')
-		input.classList.add('error')
+		addErrors(labelElement, input)
 		errorElement.textContent = `Must be a valid ${input.id}`
 		return false
 	} else if (
@@ -113,9 +98,33 @@ const validateInput = (input, dayInput, monthInput, yearInput) => {
 		addErrorToAllInputs([dayInput, monthInput, yearInput], `Must be a valid date`)
 		return false
 	} else {
-		clearError()
+		clearErrors(labelElement, input, errorElement)
 		return true
 	}
+}
+
+
+const clearErrors = (label, input, errorMsg) => {
+	label.classList.remove('error')
+	input.classList.remove('error')
+	errorMsg.textContent = ''
+}
+
+const addErrors = (label, input) => {
+	label.classList.add('error')
+	input.classList.add('error')
+}
+
+const addErrorToAllInputs = (inputs, errorMsg) => {
+	inputs.forEach((input) => {
+		const labelElement = input.previousElementSibling
+		const errorElement = input.nextElementSibling
+		labelElement.classList.add('error')
+		input.classList.add('error')
+		if (input.id === 'day') {
+			errorElement.textContent = errorMsg
+		}
+	})
 }
 
 const enterCheck = (e) => {
